@@ -1,0 +1,7 @@
+{{- $siteTitle := site.Title -}}
+<div class="responsible-gaming-info">
+  <h3 class="info-title">{{ site.Params.uiText.footerDisclaimerTitleRG | default "JOGO RESPONSÁVEL" }}</h3>
+  <p><strong>{{ $siteTitle }}</strong> {{ site.Params.uiText.footerDisclaimerResponsible | default "apoia uma abordagem responsável..." }}</p>
+  <h3 class="info-title">{{ site.Params.uiText.footerDisclaimerTitleAff | default "JOGAR COM RESPONSABILIDADE" }}</h3>
+  <p><strong>{{ $siteTitle }}</strong> {{ site.Params.uiText.footerDisclaimerAffiliate | default "é um site independente..." }}</p>
+</div>

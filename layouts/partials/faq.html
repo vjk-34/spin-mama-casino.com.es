@@ -1,0 +1,29 @@
+{{- $faqs := .Params.faq -}}
+{{- if and $faqs (gt (len $faqs) 0) -}}
+<section class="position-relative">
+    <div class="text-start">
+      <h2 class="cs_fs_50 cs_mb_15 wow fadeInDown">{{ site.Params.uiText.faqTitle | default "FAQ" }}</h2>
+    </div>
+
+    <div class="row cs_gap_y_24 position-relative z-1" itemscope itemtype="https://schema.org/FAQPage">
+      {{- range $i, $faq := $faqs -}}
+      <div class="col-xl-6 wow fadeInUp" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <div class="cs_accordian cs_radius_15 cs_white_bg cs_type_2 position-relative">
+          <div class="cs_accordian_head cs_fs_21 cs_heading_color" itemprop="name">
+            {{ $faq.question | $.Page.RenderString (dict "display" "inline") | safeHTML }}
+            <span class="cs_accordian_toggle position-absolute"></span>
+          </div>
+          <div class="cs_accordian_body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <div itemprop="text">
+              {{ $faq.answer | $.Page.RenderString (dict "display" "block") | safeHTML }}
+            </div>
+          </div>
+        </div>
+      </div>
+      {{- end }}
+    </div>
+
+    <div class="cs_faq_shape_1 cs_purple_bg cs_radius_100 position-absolute"></div>
+    <div class="cs_faq_shape_2 cs_accent_bg cs_radius_100 position-absolute"></div>
+</section>
+{{- end }}

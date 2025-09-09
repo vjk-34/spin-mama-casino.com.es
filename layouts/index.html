@@ -1,0 +1,39 @@
+{{- define "main" -}}
+  {{/* В новом шаблоне нет отдельной обертки для главной, но для чистоты добавим */}}
+  <div class="main-content-wrapper"> {{/* Класс для общего контейнера, если нужен */}}
+
+    {{/* Секция Hero (пример, если бы она была партиалом) */}}
+    {{/* {{ partial "sections/hero-index.html" . }} */}}
+
+    {{/* Основной контент из content/_index.md */}}
+    {{- if .Content -}}
+      <section class="content-section"> {{/* Общая секция для контента */}}
+        <div class="container">
+          <div class="content-area home-content"> {{/* Класс для стилизации контента */}}
+            {{ .Content }}
+          </div>
+        </div>
+      </section>
+    {{- end -}}
+
+    {{/* Другие секции можно добавлять сюда через partials */}}
+    {{/* Например, секция Features */}}
+    {{/*
+    <section class="features-section cs_gray_bg_1">
+      <div class="cs_height_125 cs_height_lg_80"></div>
+      <div class="container">
+        {{ partial "sections/features-index.html" . }}
+      </div>
+      <div class="cs_height_100 cs_height_lg_80"></div>
+    </section>
+    */}}
+
+    {{/* Вывод FAQ, если он определен в _index.md */}}
+    <section class="faq-section">
+      <div class="container">
+         {{ partial "faq.html" . }}
+      </div>
+       {{/* Отступ после FAQ, если нужен */}}
+    </section>
+  </div>
+{{- end -}}

@@ -1,0 +1,6 @@
+{{- $logo_path := .Site.Params.logo | default "/images/logo.png" -}}
+<div class="logo">
+  <a href="{{ site.Home.RelPermalink }}" title="{{ .Site.Title  }}">
+    <img src="{{ $logo_path | relURL }}" title="{{ .Site.Title  }}" alt="{{ .Site.Title  }}" width="200" height="100"> {{- /* Укажите примерные размеры */ -}}
+  </a>
+</div>

@@ -1,0 +1,113 @@
+{{- define "main" -}}
+  {{/* Используем классы и структуру из blog.html нового шаблона */}}
+  {{- $isBlog := eq .Section "blog" | or (eq .Type "blog") | or (eq .Kind "section") -}}
+  <div class="main-content-wrapper list-page-wrapper {{ if $isBlog }}blog-list-page{{ end }}">
+
+    {{/* --- Секция заголовка страницы (если это не главная страница блога) --- */}}
+    {{- if not .IsHome -}}
+      {{/* Пример секции заголовка (можно настроить) */}}
+      <section class="page-title-section cs_gray_bg_1"> {{/* Пример фона */}}
+        <div class="cs_height_85 cs_height_lg_80"></div>
+        <div class="container">
+          <div class="page-header text-center">
+            <h1 class="cs_fs_50 wow fadeInDown">{{ .Title }}</h1>
+             {{ partial "breadcrumbs.html" . }}
+          </div>
+        </div>
+        <div class="cs_height_64 cs_height_lg_50"></div>
+      </section>
+    {{- end -}}
+
+    {{/* --- Основная секция со списком и сайдбаром --- */}}
+    <section class="main-content-section">
+       <div class="cs_height_64 cs_height_lg_50"></div> {{/* Отступ сверху */}}
+      <div class="container">
+        <div class="row cs_gap_y_60"> {{/* Используем row/col и отступы из blog.html */}}
+
+          {{/* --- Сайдбар (правая колонка, как в blog.html) --- */}}
+          <aside class="col-lg-3 offset-lg-1 order-lg-2 wow fadeInRight"> {{/* Классы для сайдбара */}}
+            {{ partial "sidebar.html" . }} {{/* Вызываем партиал сайдбара */}}
+          </aside>
+
+          {{/* --- Основная колонка со списком постов --- */}}
+          <div class="col-lg-8 order-lg-1 wow fadeInLeft"> {{/* Классы для основного контента */}}
+
+             {{/* Описание раздела/страныцы (из _index.md раздела) */}}
+             {{- if and .IsSection .Content -}}
+               <div class="list-description content-area cs_mb_40">
+                 {{ .Content }}
+               </div>
+             {{- end -}}
+
+            <div class="post-list-container"> {{/* Обертка для списка постов */}}
+              {{ $paginator := .Paginator }}
+              {{ range $paginator.Pages }}
+                {{/* Используем структуру поста из blog.html (cs_post cs_style_1) */}}
+                <article class="cs_post cs_style_1 cs_mb_40">
+                  {{ if .Params.images }}
+                    {{ $imgSrc := index .Params.images 0 }}
+                    {{ $image := "" }}
+                    {{ if fileExists (printf "assets/%s" $imgSrc) }}
+                      {{ $image = resources.Get $imgSrc }}
+                    {{ else if fileExists (printf "static/%s" $imgSrc) }}
+                       {{/* Используем прямой путь */}}
+                    {{ end }}
+
+                    {{ if $image }}
+                      {{ $processedImage := $image.Fill "390x280" }} {{/* Размер из blog.html */}}
+                      <a href="{{ .RelPermalink }}" aria-label="Read post details link {{ .Title }}" class="cs_post_thumbnail cs_radius_10">
+                        <img src="{{ $processedImage.RelPermalink }}" alt="{{ .Title }}" width="{{ $processedImage.Width }}" height="{{ $processedImage.Height }}">
+                      </a>
+                    {{ else if fileExists (printf "static/%s" $imgSrc) }}
+                       <a href="{{ .RelPermalink }}" aria-label="Read post details link {{ .Title }}" class="cs_post_thumbnail cs_radius_10">
+                         <img src="{{ $imgSrc | relURL }}" alt="{{ .Title }}" width="390" height="280"> {{/* Задаем размеры вручную */}}
+                       </a>
+                    {{ else }}
+                      {{/* Placeholder or default image */}}
+                      <a href="{{ .RelPermalink }}" aria-label="Read post details link {{ .Title }}" class="cs_post_thumbnail cs_radius_10">
+                        <img src="/images/placeholder-390x280.png" alt="{{ .Title }}" width="390" height="280">
+                      </a>
+                       {{ warnf "[list.html] Image not found for post '%s': %s" .Title $imgSrc }}
+                    {{ end }}
+                  {{ else }}
+                     <a href="{{ .RelPermalink }}" aria-label="Read post details link {{ .Title }}" class="cs_post_thumbnail cs_radius_10">
+                       <img src="/images/placeholder-390x280.png" alt="{{ .Title }}" width="390" height="280"> {{/* Placeholder */}}
+                     </a>
+                  {{ end }}
+
+                  <div class="cs_post_content">
+                    <div class="cs_post_meta_wrapper cs_mb_8">
+                      {{ with .Params.author | default site.Params.author }}
+                        <div class="cs_post_meta">{{ T "by" | default "By" }} {{ . }}</div>
+                      {{ end }}
+                      <div class="cs_post_meta">{{ .Date.Format (site.Params.dateFormat | default "Jan 2, 2006") }}</div>
+                      {{/* <div class="cs_post_meta">0 Comments</div> */}} {{/* Комментарии пока не реализуем */}}
+                    </div>
+                    <h3 class="cs_post_title cs_fs_38 cs_mb_15">
+                      <a href="{{ .RelPermalink }}" aria-label="Read post details link {{ .Title }}">{{ .Title }}</a>
+                    </h3>
+                    <p class="cs_post_subtitle cs_mb_33">{{ .Summary | truncate 150 }}</p> {{/* Используем .Summary */}}
+                    <a href="{{ .RelPermalink }}" aria-label="Read post button {{ .Title }}" class="cs_btn cs_style_1 cs_purple_bg cs_accent_hover cs_white_color cs_fs_16 cs_semibold cs_radius_30">
+                       <span>{{ site.Params.uiText.listReadMore | default "Read more" }}</span>
+                    </a>
+                  </div>
+                </article>
+              {{ end }}
+            </div>
+
+            {{/* Пагинация */}}
+            {{ partial "pagination.html" . }}
+
+          </div> {{/* Конец основной колонки */}}
+
+        </div> {{/* Конец row */}}
+      </div> {{/* Конец container */}}
+    </section>
+
+  </div>
+{{- end -}}
+
+{{- define "head" -}}
+  {{- partialCached "head.html" . .RelPermalink -}}
+  {{- /* Дополнительные meta или link теги для list страниц */ -}}
+{{- end -}}

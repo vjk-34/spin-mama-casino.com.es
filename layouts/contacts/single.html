@@ -1,0 +1,30 @@
+{{- define "main" -}}
+  <div class="main-content-wrapper contact-page-wrapper">
+    <section class="contact-hero-section">
+      <div class="container">
+        <div class="text-start">
+          <h1 class="cs_fs_50 cs_mb_15 wow fadeInDown">{{ site.Params.uiText.contactPageTitle | default .Title }}</h1>
+        </div>
+        {{ partial "breadcrumbs.html" . }}
+       <div class="cs_height_60 cs_height_lg_40"></div>
+    </section>
+    <section class="contact-content-section">
+      <div class="container">
+        <div class="row cs_gap_y_40">
+          <div class="col-lg-5 wow fadeInLeft">
+             <div class="cs_section_heading cs_style_1 cs_mb_30">
+                <h2 class="cs_section_title cs_fs_38 mb-0">{{ site.Params.uiText.contactInfoTitle | default "Contact Information" }}</h2>
+             </div>
+             {{ partial "contact/info.html" . }}
+          </div>
+          <div class="col-xl-6 col-lg-7 offset-xl-1 wow fadeInRight">
+             {{ partial "contact/form.html" . }}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{{- end -}}
+{{- define "head" -}}
+  {{- partialCached "head.html" . .RelPermalink -}}
+{{- end -}}

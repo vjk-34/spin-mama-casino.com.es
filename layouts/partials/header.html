@@ -1,0 +1,71 @@
+{{- /* layouts/partials/header.html */ -}}
+{{- /* Используем классы и структуру из нового шаблона */}}
+{{- $headerType := site.Params.headerType | default "style_1" -}} {{/* Пример, если бы стиль хедера управлялся из toml */}}
+{{- $stickyHeader := site.Params.stickyHeader | default true -}} {{/* Пример */}}
+
+<header class="cs_site_header cs_style_1 {{ if $stickyHeader }}cs_sticky_header{{ end }}">
+  {{/* В новом шаблоне есть <div class="cs_main_header...">, используем его */}}
+  <div class="cs_main_header cs_fs_18 cs_heading_color">
+    <div class="container"> {{/* Используем container как в новом шаблоне */}}
+      <div class="cs_main_header_in">
+
+        <div class="cs_main_header_left">
+          {{/* Вставляем твой партиал логотипа, который использует site.Params.logo */}}
+          {{ partial "logo.html" . }}
+        </div>
+
+        <div class="cs_main_header_center">
+          {{/* Основная навигация (десктоп) */}}
+          <div class="cs_nav">
+            {{- if .Site.Menus.main -}}
+            <ul class="cs_nav_list">
+              {{- range .Site.Menus.main.ByWeight -}}
+              {{- if not .Parent -}}
+              <li class="menu-item {{- if .HasChildren }} menu-item-has-children {{- end -}}">
+                {{- $menuNameKey := site.Params.uiText | printf "menu%s" .Name | replaceRE `\s` "" | lower -}}
+                {{- $menuName := T $menuNameKey | default (index site.Params.uiText (printf "menu%s" (.Name | title))) | default .Name -}}
+                <a href="{{ .URL | relURL }}" aria-label="Menu link {{ $menuName }}" {{- with .Identifier -}} id="menu-{{ . }}" {{- end -}}>
+                  {{ $menuName }}
+                </a>
+                {{- if .HasChildren -}}
+                <ul>
+                  {{- range .Children.ByWeight -}}
+                  <li class="menu-item">
+                    {{- $childMenuNameKey := site.Params.uiText | printf "menu%s" .Name | replaceRE `\s` "" | lower -}}
+                    {{- $childMenuName := T $childMenuNameKey | default (index site.Params.uiText (printf "menu%s" (.Name | title))) | default .Name -}}
+                    <a href="{{ .URL | relURL }}" aria-label="Menu link {{ $childMenuName }}" {{- with .Identifier -}} id="menu-{{ . }}" {{- end -}}>{{ $childMenuName }}</a>
+                  </li>
+                  {{- end -}}
+                </ul>
+                {{- end -}}
+              </li>
+              {{- end -}}
+              {{- end -}}
+            </ul>
+            {{- else -}}
+              {{- warnf "[header.html] Меню 'main' не найдено в конфигурации сайта." -}}
+            {{- end -}}
+          </div>
+          {{- /* Кнопки справа для десктопа (если нужны) */}}
+          {{- /*
+          <div class="cs_main_header_right">
+             <a href="login.html" aria-label="Login page link"><span>Login</span></a>
+             {{ partial "play-button.html" . }}
+          </div>
+          */ -}}
+        </div>
+
+         {{- /* Элементы управления (гамбургер, кнопка "Играть") */}}
+         <div class="header-controls">
+            {{ partial "play-button.html" . }} {{/* Твоя кнопка "Играть" */}}
+            {{/* Кнопка-гамбургер для мобильного меню из твоего старого шаблона */}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {{/* В новом шаблоне есть <hr> под хедером */}}
+  <hr>
+</header>
+
+{{/* Мобильное меню - адаптируем структуру из твоего старого шаблона под классы нового, если нужно */}}

@@ -1,0 +1,55 @@
+{{- $footerStyle := site.Params.footerStyle | default "style_1" -}}
+{{- $footerType := site.Params.footerType | default "type_1" -}}
+
+<footer class="cs_footer {{ $footerStyle }} {{ $footerType }}">
+  <div class="container">
+    <div class="cs_footer_main">
+      <div class="row cs_gap_y_30">
+        <div class="col-xl-5 col-lg-4 col-md-7">
+          <div class="cs_footer_widget cs_text_widget">
+            <div class="cs_brand cs_mb_10 wow fadeInUp" data-wow-delay="0.1s">
+              {{ partial "footer/logo.html" . }}
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-7">
+          <div class="cs_footer_widget cs_help_widget">
+             {{- if .Site.Menus.footer -}}
+               <ul class="cs_footer_medu cs_mp_0">
+                 {{- range .Site.Menus.footer.ByWeight -}}
+                   {{- $menuNameKey := printf "menu%s" (.Name | title) | replaceRE `\s` "" | lower -}}
+                   {{- $menuName := T $menuNameKey | default (index site.Params.uiText $menuNameKey) | default .Name -}}
+                   <li><a href="{{ .URL | relURL }}" aria-label="{{ $menuName }} page link">{{ $menuName }}</a></li>
+                 {{- end -}}
+               </ul>
+             {{- else -}}
+                 {{- warnf "[footer.html] Меню 'footer' не найдено в конфигурации сайта для секции Help Center." -}}
+             {{- end -}}
+          </div>
+        </div>
+        <div class="col-xl-4 col-lg-3 col-md-4 offset-md-1 offset-lg-0 text-start text-md-end">
+          <div class="cs_footer_widget cs_contact_widget">
+            <ul class="cs_footer_medu cs_mp_0">
+              {{- with site.Params.contact.address_text -}}
+                <li><a href="{{ site.Params.contact.address_url }}" aria-label="Email send link">{{ . }}</a></li>
+              {{- end -}}
+              {{- with site.Params.contact.email -}}
+                <li><a href="mailto:{{ . }}" aria-label="Email send link">{{ . }}</a></li>
+              {{- end -}}
+              {{- with site.Params.contact.phone_display -}}
+                <li><a href="tel:{{ site.Params.contact.phone_link }}" aria-label="Phone call link">{{ . }}</a></li>
+              {{- end -}}
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="cs_height_62 cs_height_lg_40"></div>
+    <div class="cs_footer_bottom {{ if eq $footerType "type_1" }}cs_gray_bg_2 cs_radius_50{{ end }} d-flex p-3 align-items-center mb-4">
+      <div class="cs_footer_text cs_heading_color">{{ partial "footer/copyright.html" . }}</div>
+      <div class="footer-casino-logos">{{ partial "footer/casino-logos.html" . }}</div>
+    </div>
+  </div>
+
+</footer>

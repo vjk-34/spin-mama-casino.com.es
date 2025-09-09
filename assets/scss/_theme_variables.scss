@@ -1,0 +1,183 @@
+@function hexToRgb($hex) {
+  @return red($hex), green($hex), blue($hex);
+}
+
+:root {
+
+  --theme-color-primary: #{$primary-color};
+  --theme-color-primary-dark: #{$primary-color-dark};
+  --theme-color-primary-light: #{lighten($primary-color, 15%)};
+  --theme-color-primary-rgb: #{hexToRgb($primary-color)};
+
+  --theme-color-secondary: #{$secondary-color};
+  --theme-color-secondary-dark: #{darken($secondary-color, 8%)};
+  --theme-color-secondary-light: #{lighten($secondary-color, 15%)};
+  --theme-color-secondary-rgb: #{hexToRgb($secondary-color)};
+
+  --theme-color-accent: #{$accent-color};
+  --theme-color-accent-dark: #{darken($accent-color, 8%)};
+  --theme-color-accent-light: #{lighten($accent-color, 15%)};
+  --theme-color-accent-rgb: #{hexToRgb($accent-color)};
+
+  --theme-color-danger: #{$danger-color};
+
+
+  --theme-bg-color: #{$bg-color};
+  --theme-bg-color-alt: #{$bg-color-alt};
+  --theme-bg-color-rgb: #{hexToRgb($bg-color)};
+
+  --theme-text-color: #{$text-color};
+  --theme-text-color-light: #{$text-color-light};
+  --theme-text-color-headings: #{$text-color-headings};
+  --theme-text-color-inverted: #{$white};
+  --theme-text-color-link: var(--theme-color-primary);
+  --theme-text-color-link-hover: var(--theme-color-primary-dark);
+
+
+  --theme-border-color: #{$border-color};
+  --theme-border-color-light: #{$border-color-light};
+  --theme-border-width: 1px;
+  --theme-border-style: solid;
+  --theme-border-radius: #{$border-radius};
+  --theme-border-radius-lg: #{$border-radius-lg};
+
+
+  --theme-font-primary: #{$font-primary};
+  --theme-font-secondary: #{$font-secondary};
+  --theme-font-code: #{$font-code};
+
+  --theme-font-size-base: #{$base-font-size};
+  --theme-font-size-sm: 0.875rem;
+  --theme-font-size-lg: 1.125rem;
+  --theme-font-size-xl: 1.25rem;
+
+  --theme-font-size-h1: 2.5rem;
+  --theme-font-size-h2: 2rem;
+  --theme-font-size-h3: 1.75rem;
+  --theme-font-size-h4: 1.375rem;
+
+  --theme-font-weight-light: 300;
+  --theme-font-weight-normal: 400;
+  --theme-font-weight-medium: 500;
+  --theme-font-weight-semibold: 600;
+  --theme-font-weight-bold: #{$heading-font-weight};
+  --theme-font-weight-headings: var(--theme-font-weight-bold);
+
+  --theme-line-height-base: #{$base-line-height};
+  --theme-line-height-headings: #{$heading-line-height};
+
+
+  --theme-spacing-unit: #{$base-spacing-unit};
+
+  --theme-spacing-xs: calc(var(--theme-spacing-unit) * 0.25);
+  --theme-spacing-sm: calc(var(--theme-spacing-unit) * 0.5);
+  --theme-spacing-md: var(--theme-spacing-unit);
+  --theme-spacing-lg: calc(var(--theme-spacing-unit) * 1.5);
+  --theme-spacing-xl: calc(var(--theme-spacing-unit) * 2);
+  --theme-spacing-xxl: calc(var(--theme-spacing-unit) * 3);
+
+  --theme-container-max-width: #{$container-max-width};
+  --theme-container-padding-x: calc(var(--theme-spacing-unit) * 1.5);
+
+  --theme-header-height: #{$header-height};
+  --theme-main-padding-top: var(--theme-spacing-xxl);
+  --theme-main-padding-bottom: calc(var(--theme-spacing-unit) * 4);
+
+
+  --theme-shadow-sm: #{$box-shadow-sm};
+  --theme-shadow: #{$box-shadow};
+  --theme-shadow-lg: #{$box-shadow-lg};
+  --theme-shadow-focus-ring: 0 0 0 3px rgba(var(--theme-color-primary-rgb), 0.3);
+
+
+  --theme-button-bg: var(--theme-color-primary);
+  --theme-button-hover-bg: var(--theme-color-primary-dark);
+  --theme-button-active-bg: var(--theme-color-primary-dark);
+  --theme-button-text-color: var(--theme-text-color-inverted);
+  --theme-button-border-color: transparent;
+  --theme-button-hover-border-color: transparent;
+  --theme-button-border-width: var(--theme-border-width);
+  --theme-button-border-radius: var(--theme-border-radius);
+  --theme-button-padding-y: calc(var(--theme-spacing-unit) * 0.7);
+  --theme-button-padding-x: calc(var(--theme-spacing-unit) * 1.5);
+  --theme-button-font-weight: var(--theme-font-weight-semibold);
+  --theme-button-shadow: var(--theme-shadow-sm);
+  --theme-button-hover-shadow: var(--theme-shadow);
+
+  --theme-button-secondary-bg: var(--theme-bg-color);
+  --theme-button-secondary-hover-bg: var(--theme-bg-color-alt);
+  --theme-button-secondary-active-bg: var(--theme-bg-color-alt);
+  --theme-button-secondary-text-color: var(--theme-color-primary);
+  --theme-button-secondary-hover-text-color: var(--theme-color-primary-dark);
+  --theme-button-secondary-border-color: var(--theme-border-color);
+  --theme-button-secondary-hover-border-color: var(--theme-border-color-light);
+  --theme-button-secondary-shadow: none;
+  --theme-button-secondary-hover-shadow: var(--theme-shadow-sm);
+
+  --theme-footer-bg: #111827;
+  --theme-footer-text: #9CA3AF;
+  --theme-footer-border-color: var(--theme-color-primary);
+  --theme-footer-link-color: var(--theme-text-color-inverted);
+  --theme-footer-link-hover-color: var(--theme-color-primary-light);
+  --theme-footer-padding-y: calc(var(--theme-spacing-unit) * 4);
+  --theme-footer-heading-color: var(--theme-text-color-inverted);
+
+  --theme-blockquote-bg: var(--theme-bg-color-alt);
+  --theme-blockquote-border-color: var(--theme-color-secondary);
+  --theme-blockquote-text-color: var(--theme-text-color);
+  --theme-blockquote-border-width: 5px;
+  --theme-blockquote-padding-x: calc(var(--theme-spacing-unit) * 2);
+  --theme-blockquote-padding-y: calc(var(--theme-spacing-unit) * 1.5);
+
+  --theme-code-inline-bg: rgba(var(--theme-color-primary-rgb), 0.08);
+  --theme-code-inline-text: var(--theme-color-primary-dark);
+  --theme-code-block-bg: #{$pre-bg};
+  --theme-code-block-text: #{$pre-text};
+  --theme-code-block-padding: calc(var(--theme-spacing-unit) * 1.5);
+
+  --theme-table-header-bg: var(--theme-bg-color-alt);
+  --theme-table-header-text: var(--theme-text-color-headings);
+  --theme-table-stripe-bg: transparent;
+  --theme-table-border-color: var(--theme-border-color-light);
+  --theme-table-cell-padding-x: var(--theme-spacing-md);
+  --theme-table-cell-padding-y: calc(var(--theme-spacing-unit) * 0.8);
+
+  --theme-form-input-bg: var(--theme-bg-color);
+  --theme-form-input-text: var(--theme-text-color);
+  --theme-form-input-border: var(--theme-border-color);
+  --theme-form-input-focus-border: var(--theme-color-primary);
+  --theme-form-input-placeholder-text: var(--theme-text-color-light);
+  --theme-form-input-border-radius: var(--theme-border-radius);
+  --theme-form-input-padding-y: calc(var(--theme-spacing-unit) * 0.75);
+  --theme-form-input-padding-x: var(--theme-spacing-md);
+
+  --theme-contact-icon-bg: rgba(var(--theme-color-primary-rgb), 0.1);
+  --theme-contact-icon-color: var(--theme-color-primary);
+  --theme-contact-form-bg: var(--theme-bg-color-alt);
+
+  --theme-toc-bg: var(--theme-bg-color-alt);
+  --theme-toc-border-color: var(--theme-border-color-light);
+  --theme-toc-title-color: var(--theme-text-color-headings);
+  --theme-toc-link-color: var(--theme-text-color);
+  --theme-toc-link-hover-color: var(--theme-color-primary);
+  --theme-toc-padding: calc(var(--theme-spacing-unit) * 1.5);
+  --theme-toc-border-radius: var(--theme-border-radius-lg);
+
+  --theme-header-bg: var(--theme-bg-color);
+  --theme-header-border-color: var(--theme-border-color-light);
+  --theme-header-link-color: var(--theme-text-color);
+  --theme-header-link-hover-color: var(--theme-color-primary);
+  --theme-header-link-active-border-color: var(--theme-color-primary);
+  --theme-mobile-menu-bg: rgba(var(--theme-bg-color-rgb), 0.98);
+  --theme-mobile-menu-border-color: var(--theme-border-color-light);
+  --theme-mobile-menu-link-color: var(--theme-text-color-headings);
+  --theme-mobile-menu-link-hover-bg: rgba(var(--theme-color-primary-rgb), 0.1);
+  --theme-mobile-menu-link-hover-color: var(--theme-color-primary);
+  --theme-submenu-bg: var(--theme-bg-color);
+  --theme-submenu-hover-bg: var(--theme-bg-color-alt);
+  --theme-submenu-border-color: var(--theme-border-color-light);
+
+
+  --theme-text-color-inverted-rgb: #{hexToRgb($white)};
+
+}

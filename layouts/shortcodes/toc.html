@@ -1,0 +1,30 @@
+{{- $page := .Page -}}
+{{- if $page.TableOfContents -}}
+  {{- $uniquePart := ($page.Permalink | md5) -}}
+  {{- $tocID := printf "toc-%s" $uniquePart -}}
+  {{- $tocTitle := site.Params.uiText.tocTitle | default (T "tocTitle" | default "Índice") -}}
+
+  {{- $schemaData := dict
+      "@context" "https://schema.org"
+      "@type" "SiteNavigationElement"
+      "@id" (printf "%s#%s" $page.Permalink $tocID)
+      "name" $tocTitle
+      "isPartOf" (dict "@type" "WebPage" "@id" $page.Permalink)
+  -}}
+
+  <script type="application/ld+json">{{ $schemaData | jsonify | safeJS }}</script>
+
+  <aside class="toc-container" id="{{ $tocID }}">
+    <h2 class="toc-title">
+      <button type="button" class="toc-toggle-button" aria-expanded="false" aria-controls="toc-content-{{ $tocID }}">
+        <div>{{- $tocTitle -}}</div>
+        <span class="toc-toggle-icon" aria-hidden="true">▼</span>
+      </button>
+    </h2>
+    <div class="toc-content-wrapper" id="toc-content-{{ $tocID }}">
+      <nav id="TableOfContents">
+        {{- $page.TableOfContents -}}
+      </nav>
+    </div>
+  </aside>
+{{- end -}}

@@ -1,0 +1,87 @@
+{{- /* layouts/partials/sidebar.html */ -}}
+{{- /* Адаптируем под структуру сайдбара из blog.html нового шаблона */ -}}
+{{- $currentPage := . -}}
+
+<div class="cs_sidebar cs_style_1">
+
+  {{- /* Виджет Поиска (если нужен) */ -}}
+  {{- with site.Params.enableSearch | default false -}}
+  <div class="cs_sidebar_widget">
+    <form action="{{ "/search" | relURL }}" class="cs_search_form position-relative" method="get"> {{/* Укажи правильный URL для поиска, если он есть */}}
+      <span class="cs_search_icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+      <input type="search" name="q" placeholder="{{ site.Params.uiText.searchPlaceholder | default "Search.." }}" class="cs_form_field cs_radius_30">
+    </form>
+  </div>
+  {{- end -}}
+
+  {{- /* Виджет Категорий */ -}}
+  {{- $taxonomy := "categories" -}} {{/* Или другое название твоей таксономии категорий */}}
+  {{- with index site.Taxonomies $taxonomy -}}
+    {{- if gt (len .) 0 -}}
+      <div class="cs_sidebar_widget">
+        <h3 class="cs_widget_title cs_fs_29 cs_normal cs_mb_16">{{ site.Params.uiText.categoriesTitle | default "Categories" }}</h3>
+        <ul class="cs_category_list cs_mp_0">
+          {{- range $name, $taxonomyData := . -}}
+            {{- $termPage := $currentPage.Site.GetPage (printf "/%s/%s" $taxonomy $name) -}}
+            {{- if $termPage -}}
+              <li>
+                <a href="{{ $termPage.RelPermalink }}" aria-label="Category {{ $termPage.Title }}">
+                  {{ $termPage.Title }} ({{ len $taxonomyData.Pages }})
+                </a>
+              </li>
+            {{- else -}}
+               {{/* Если страницы для тега нет, просто выводим название */}}
+               <li>{{ $name | humanize | title }} ({{ len $taxonomyData.Pages }})</li>
+               {{- warnf "[sidebar.html] Page not found for category term: %s" $name -}}
+            {{- end -}}
+          {{- end -}}
+        </ul>
+      </div>
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Виджет Последних постов */ -}}
+  {{- $relatedSection := $currentPage.Section | default "blog" -}} {{/* Берем посты из текущей секции или из 'blog' */}}
+  {{- $recentPosts := first 5 (where site.RegularPages "Section" $relatedSection) -}}
+  {{- with $recentPosts -}}
+    <div class="cs_sidebar_widget">
+      <h3 class="cs_widget_title cs_fs_29 cs_normal cs_mb_23">{{ site.Params.uiText.latestPostsTitle | default "Latest Post" }}</h3>
+      <ul class="cs_latestpost_list cs_mp_0">
+        {{- range . -}}
+          <li>
+            <div class="cs_latest_post cs_style_1">
+              <h3 class="cs_fs_21 cs_normal cs_mb_6">
+                <a href="{{ .RelPermalink }}" aria-label="Read post details link {{ .Title }}">{{ .Title }}</a>
+              </h3>
+              <p class="mb-0 cs_body_color">{{ .Date.Format (site.Params.dateFormatList | default "Jan 2, 2006") }}</p>
+            </div>
+          </li>
+        {{- end -}}
+      </ul>
+    </div>
+  {{- end -}}
+
+  {{- /* Виджет Тегов */ -}}
+   {{- $tagTaxonomy := "tags" -}} {{/* Или другое название таксономии тегов */}}
+   {{- with index site.Taxonomies $tagTaxonomy -}}
+     {{- if gt (len .) 0 -}}
+       <div class="cs_sidebar_widget">
+         <h3 class="cs_widget_title cs_fs_29 cs_normal cs_mb_30">{{ site.Params.uiText.tagsTitle | default "Popular tags" }}</h3>
+         <div class="cs_tags">
+           {{- range $name, $taxonomyData := . -}}
+             {{- $termPage := $currentPage.Site.GetPage (printf "/%s/%s" $tagTaxonomy $name) -}}
+             {{- if $termPage -}}
+               <a href="{{ $termPage.RelPermalink }}" aria-label="Tag {{ $termPage.Title }}" class="cs_tag_link cs_radius_20">
+                 {{ $termPage.Title }}
+               </a>
+             {{- else -}}
+                <span class="cs_tag_link cs_radius_20">{{ $name | humanize | title }}</span>
+                {{- warnf "[sidebar.html] Page not found for tag term: %s" $name -}}
+             {{- end -}}
+           {{- end -}}
+         </div>
+       </div>
+     {{- end -}}
+   {{- end -}}
+
+</div>

@@ -1,0 +1,13 @@
+{{- with site.Params.referralBaseUrl -}}
+  {{- $refBase := . -}}
+  {{- $buttonText := site.Params.uiText.playButtonText | default "Play" -}}
+  <a href="/play"
+     class="button play-button"
+     title="{{ $buttonText }}"
+     target="_blank"
+     rel="noopener noreferrer nofollow">
+     {{- $buttonText -}}
+  </a>
+{{- else -}}
+   {{- warnf "[play-button.html] Отсутствует site.Params.referralBaseUrl в конфиге Hugo!" -}}
+{{- end -}}

@@ -1,0 +1,28 @@
+{{- $logoPath := "images/casino-logos/*" -}}
+{{- $allLogos := resources.Match $logoPath -}}
+
+{{- if $allLogos -}}
+  {{- $shuffledLogos := shuffle $allLogos -}}
+  {{- $selectedLogos := first 4 $shuffledLogos -}}
+
+  <div class="casino-logo-gallery">
+    <div class="logo-items">
+      {{- range $selectedLogos -}}
+        {{- $image := . -}}
+        {{- $width := 0 -}} {{- $height := 0 -}} {{- $src := "" -}}
+        {{- if ne .MediaType.SubType "svg" -}}
+          {{- $imgProc := $image.Fit "130x45" -}}
+          {{- $width = $imgProc.Width -}} {{- $height = $imgProc.Height -}} {{- $src = $imgProc.RelPermalink -}}
+        {{- else -}}
+          {{- $width = 120 -}} {{- $height = 45 -}} {{- $src = $image.RelPermalink -}}
+        {{- end -}}
+        {{- $altText := $.Site.Title -}}
+        <div class="casino-logo-item">
+          <img src="{{ $src }}" title="{{ $altText }}" alt="{{ $altText }}" loading="lazy" width="{{ $width }}" height="{{ $height }}" style="max-height: 40px; width: auto;"> {{- /* Стили тоже не трогаем */ -}}
+        </div>
+      {{- end -}}
+    </div>
+  </div>
+{{- else -}}
+  {{- warnf "[casino-logos.html] Не найдено логотипов в папке '%s'" $logoPath -}}
+{{- end -}}

@@ -1,0 +1,163 @@
+.content-area {
+
+  > *:first-child { margin-top: 0; }
+
+
+  h1, h2, h3, h4, h5, h6 {
+      margin-top: calc(var(--theme-spacing-unit) * 2.5);
+      margin-bottom: calc(var(--theme-spacing-unit) * 1.25);
+  }
+  p {
+    margin-bottom: var(--theme-spacing-lg);
+    color: #000;
+  }
+
+  iframe {
+    width: 100%;
+    height: 500px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: var(--theme-text-color-link);
+    opacity: 0.7;
+    text-decoration-thickness: var(--theme-border-width);
+    text-underline-offset: 3px;
+    font-weight: var(--theme-font-weight-medium);
+    transition: opacity 0.2s ease, text-decoration-color 0.2s ease;
+
+    &:hover {
+      text-decoration-color: var(--theme-text-color-link-hover);
+      opacity: 1;
+    }
+  }
+
+  ul, ol {
+    margin-bottom: var(--theme-spacing-lg);
+    padding-left: var(--theme-spacing-xl);
+    ul, ol {
+      margin-top: var(--theme-spacing-md);
+      margin-bottom: var(--theme-spacing-md);
+    }
+  }
+  li {
+     margin-bottom: var(--theme-spacing-md);
+     padding-left: var(--theme-spacing-sm);
+     &::marker { color: var(--theme-color-primary); }
+  }
+  ol {
+    list-style-type: decimal;
+    li::marker { font-weight: var(--theme-font-weight-semibold); }
+  }
+  ul { list-style-type: disc; }
+
+  blockquote {
+    margin: var(--theme-spacing-xl) 0;
+    padding: var(--theme-blockquote-padding-y) var(--theme-blockquote-padding-x);
+    border-left: var(--theme-blockquote-border-width) var(--theme-border-style) var(--theme-blockquote-border-color);
+    background-color: var(--theme-blockquote-bg);
+    color: var(--theme-blockquote-text-color);
+    font-style: normal;
+    border-radius: 0 var(--theme-border-radius) var(--theme-border-radius) 0;
+    box-shadow: var(--theme-shadow-sm);
+    p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-bottom: var(--theme-spacing-md);
+      &:last-child { margin-bottom: 0; }
+    }
+    cite {
+        display: block;
+        margin-top: var(--theme-spacing-md);
+        font-size: 0.9em;
+        color: var(--theme-text-color-light);
+        font-style: normal;
+        text-align: right;
+        &::before { content: "— "; }
+    }
+  }
+
+  img {
+    display: block;
+
+    height: auto !important;
+
+    margin: var(--theme-spacing-xl) 0;
+    border-radius: var(--theme-border-radius-lg);
+    box-shadow: var(--theme-shadow);
+    max-width: 100%;
+  }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    margin-bottom: var(--theme-spacing-xl);
+    font-size: 0.95em;
+    border: var(--theme-border-width) var(--theme-border-style) var(--theme-table-border-color);
+    box-shadow: var(--theme-shadow-sm);
+    border-radius: var(--theme-border-radius);
+    overflow: hidden;
+
+    @media (max-width: #{$breakpoint-md}) {
+      display: grid;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+  thead, tbody {
+    @media (max-width: #{$breakpoint-md}) {
+        display: table;
+        width: 100%;
+    }
+  }
+  th, td {
+    border: none;
+    border-bottom: var(--theme-border-width) var(--theme-border-style) var(--theme-table-border-color);
+    padding: var(--theme-table-cell-padding-y) var(--theme-table-cell-padding-x);
+    text-align: left; vertical-align: top;
+    white-space: normal;
+    @media (max-width: #{$breakpoint-md}) {
+        white-space: nowrap;
+    }
+  }
+  th {
+    background-color: var(--theme-table-header-bg);
+    font-weight: var(--theme-font-weight-semibold);
+    color: var(--theme-table-header-text);
+    border-bottom-width: calc(var(--theme-border-width) * 2);
+    border-bottom-color: var(--theme-border-color);
+  }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:nth-child(even) {
+    background-color: var(--theme-table-stripe-bg);
+  }
+
+  code {
+    font-family: var(--theme-font-code);
+    background-color: var(--theme-code-inline-bg);
+    color: var(--theme-code-inline-text);
+    padding: 0.25em 0.5em;
+    border-radius: var(--theme-border-radius);
+    font-size: 0.9em;
+    word-wrap: break-word;
+  }
+  pre {
+    font-family: var(--theme-font-code);
+    background-color: var(--theme-code-block-bg);
+    color: var(--theme-code-block-text);
+    padding: var(--theme-code-block-padding);
+    border-radius: var(--theme-border-radius);
+    overflow-x: auto;
+    margin-bottom: var(--theme-spacing-xl);
+    font-size: 0.9em;
+    line-height: 1.5;
+    box-shadow: var(--theme-shadow);
+    code {
+      background-color: transparent;
+      color: inherit;
+      padding: 0;
+      font-size: 1em;
+      border-radius: 0;
+    }
+  }
+}

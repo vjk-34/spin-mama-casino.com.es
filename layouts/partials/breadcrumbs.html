@@ -1,0 +1,31 @@
+{{- /* layouts/partials/breadcrumbs.html - v14 Проверка URL перед вызовом поиска */ -}}
+{{- $currentPage := . -}}
+{{- if and (not .IsHome) (ne .Kind "404") .RelPermalink -}} {{- /* <-- Добавлена проверка .RelPermalink */ -}}
+<nav aria-label="breadcrumb" class="breadcrumbs">
+  <ol class="breadcrumb-list" itemscope itemtype="https://schema.org/ListItem">
+    {{- $position := 0 -}}
+
+    {{- /* 1. Ссылка на главную страницу (используем uiText) */ -}}
+    {{- $position = add $position 1 -}}
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      {{- $homeNameKey := site.Params.uiText.breadcrumbHome | default "breadcrumbHome" -}}
+      <a itemprop="item" href="{{ site.Home.RelPermalink }}">
+        <span itemprop="name">{{ i18n $homeNameKey | default site.Params.uiText.breadcrumbHome | default "Home" }}</span>
+      </a>
+      <meta itemprop="position" content="{{ $position }}" />
+    </li>
+
+    {{- /* 3. Текущая страница */ -}}
+    {{- $position = add $position 1 -}}
+    {{- $currentUrl := .RelPermalink -}} {{- /* Теперь мы уверены, что он есть */ -}}
+    {{- /* --- Ищем имя текущей страницы в меню --- */ -}}
+    {{- /* Вызываем партиал напрямую. Fallback на .Title */ -}}
+    {{- $currentName := partialCached "func/findMenuNameByUrl" (dict "TargetURL" $currentUrl "SiteMenus" site.Menus) $currentUrl site.Menus | default .Title -}}
+    {{- /* -------------------------------------- */ -}}
+    <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span itemprop="name">{{ $currentName }}</span>
+      <meta itemprop="position" content="{{ $position }}" />
+    </li>
+  </ol>
+</nav>
+{{- end -}}

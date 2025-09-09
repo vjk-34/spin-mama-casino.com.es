@@ -1,0 +1,26 @@
+{{- /* layouts/shortcodes/demo.html */ -}}
+{{- /* Получаем код iframe из параметров сайта */ -}}
+{{- $iframeCode := site.Params.demoIframeCode | default "" -}}
+
+{{- /* Проверяем, что код не пустой */ -}}
+{{- if $iframeCode -}}
+  <div class="demo-iframe-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin-bottom: 1.5rem;">
+    {{- /* Используем safeHTML, так как вставляем необработанный HTML */ -}}
+    {{ $iframeCode | safeHTML }}
+  </div>
+  <style>
+    /* Добавляем стили для адаптивности iframe внутри контейнера */
+    .demo-iframe-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  </style>
+{{- else -}}
+  {{- /* Выводим предупреждение в консоль сборки Hugo, если параметр не найден */ -}}
+  {{- warnf "[demo.html shortcode] Параметр 'demoIframeCode' не найден или пуст в hugo.toml -> [params]. Iframe не будет отображен." -}}
+  <!-- Demo iframe code not found in site params --> {{- /* Комментарий в HTML */ -}}
+{{- end -}}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ .Site.Language.Lang | default "en" }}">
+<head>
+  {{ partial "head.html" . }}
+  {{/* Добавляем стили из нового шаблона */}}
+  <link rel="stylesheet" href="{{ "/css/bootstrap.min.css" | relURL }}">
+  <link rel="stylesheet" href="{{ "/css/fontawesome.min.css" | relURL }}">
+  <link rel="stylesheet" href="{{ "/css/animate.css" | relURL }}">
+  <link rel="stylesheet" href="{{ "/css/odometer.css" | relURL }}">
+  <link rel="stylesheet" href="{{ "/css/slick.min.css" | relURL }}">
+  {{ $options := (dict "targetPath" "css/style.css" "outputStyle" "compressed") }}
+  {{ $style := resources.Get "sass/style.scss" | toCSS $options | fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+  {{ $style := resources.Get "scss/main.scss" | toCSS $options | fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+  {{/* Если в новом шаблоне есть еще CSS-файлы, добавь их сюда */}}
+</head>
+{{/* Класс для body можно будет добавить позже, если понадобится для стилизации конкретных страниц */}}
+<body>
+  <!-- Start Preloader -->
+  <div class="cs_preloader cs_white_bg">
+    <div class="cs_preloader_in position-relative"><span></span><span></span></div>
+  </div>
+  <!-- End Preloader -->
+
+  {{ partial "header.html" . }}
+
+  {{/* Запас высоты под фиксированный хедер, если он есть в новом шаблоне */}}
+  {{/* <div class="cs_height_100 cs_height_lg_80"></div> */}}
+
+  {{/* Основной контент страницы будет вставлен сюда */}}
+  <main id="content" role="main">
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  {{ partial "footer.html" . }}
+
+  <!-- Start Scroll Up Button -->
+  {{/* Если кнопка "наверх" нужна, ее можно оставить или перенести в footer.html */}}
+  <button type="button" aria-label="Scroll to top button" class="cs_scrollup cs_purple_bg cs_white_color cs_radius_100">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 10L1.7625 11.7625L8.75 4.7875V20H11.25V4.7875L18.225 11.775L20 10L10 0L0 10Z" fill="currentColor" />
+    </svg>
+  </button>
+  <!-- End Scroll Up Button -->
+
+  <!-- Script -->
+  {{/* Подключаем скрипты из нового шаблона */}}
+  <script src="{{ "/js/jquery.min.js" | relURL }}"></script>
+  <script src="{{ "/js/wow.min.js" | relURL }}"></script>
+  <script src="{{ "/js/jquery.slick.min.js" | relURL }}"></script>
+  <script src="{{ "/js/odometer.js" | relURL }}"></script>
+  {{/* Заменяем твой app.js на main.js из нового шаблона */}}
+  {{ $mainJS := resources.Get "js/main.js" }}
+  {{ if $mainJS }}
+    {{ $scripts := $mainJS | js.Build (dict "minify" true) | fingerprint }}
+    <script src="{{ $scripts.RelPermalink }}" integrity="{{ $scripts.Data.Integrity }}" defer></script>
+  {{ else }}
+    {{/* Если main.js не найден в assets/js, пытаемся подключить напрямую */}}
+    <script src="{{ "/js/main.js" | relURL }}" defer></script>
+    {{ warnf "[baseof.html] assets/js/main.js not found. Linking directly. Consider moving it to assets/js for Hugo Pipes processing." }}
+  {{ end }}
+  {{/* Старый app.js больше не нужен, так как новый шаблон использует main.js */}}
+  {{ $jsTemplate := resources.Get "js/app.js" }}
+  {{ $jsProcessed := $jsTemplate | resources.ExecuteAsTemplate "app.js" . }}
+  {{ $scripts := $jsProcessed | js.Build (dict "minify" true) | fingerprint }}
+  <script src="{{ $scripts.RelPermalink }}" integrity="{{ $scripts.Data.Integrity }}" defer></script>
+
+</body>
+</html>

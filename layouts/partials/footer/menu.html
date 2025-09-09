@@ -1,0 +1,7 @@
+{{- if .Site.Menus.footer -}}
+<ul class="footer-menu">
+  {{- range .Site.Menus.footer.ByWeight -}}
+  <li><a href="{{ .URL | relURL }}">{{ .Name }}</a></li>
+  {{- end -}}
+</ul>
+{{- end -}}

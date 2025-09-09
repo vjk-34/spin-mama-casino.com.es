@@ -1,0 +1,41 @@
+{{- /*
+layouts/partials/func/findMenuNameByUrl.html
+Ожидает на входе словарь с ключами:
+- TargetURL: Относительный URL страницы (например, .RelPermalink), который ищем.
+- SiteMenus: Объект .Site.Menus
+
+Возвращает строку: .Name найденного пункта меню или пустую строку.
+*/ -}}
+
+{{- $targetUrl := .TargetURL -}}
+{{- $menus := .SiteMenus -}}
+{{- $foundName := "" -}}
+
+{{- /* Проверяем, что URL и меню переданы */ -}}
+{{- if and $targetUrl $menus -}}
+
+  {{- /* Сначала ищем в главном меню (main) */ -}}
+  {{- range $menus.main -}}
+    {{- /* Сравниваем URL, используя relLangURL для нормализации */ -}}
+    {{- if eq (relLangURL .URL) $targetUrl -}}
+      {{- $foundName = .Name -}}
+      {{- break -}} {{- /* Нашли, выходим из цикла range */ -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Если не нашли в main, ищем в подвале (footer) */ -}}
+  {{- if not $foundName -}}
+    {{- range $menus.footer -}}
+      {{- if eq (relLangURL .URL) $targetUrl -}}
+        {{- $foundName = .Name -}}
+        {{- break -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+{{- else -}}
+  {{- warnf "[findMenuNameByUrl.html] Не передан TargetURL или SiteMenus в контексте." -}}
+{{- end -}}
+
+{{- /* Возвращаем найденное имя (или пустую строку) */ -}}
+{{- return $foundName -}}

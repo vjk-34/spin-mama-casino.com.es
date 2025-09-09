@@ -1,0 +1,93 @@
+baseURL = "https://spin-mama-casino.com.es/"
+defaultContentLanguage = "es"
+title = "Spin-mama-casino.com"
+enableRobotsTXT = true
+buildFuture = true
+
+[pagination]
+pagerSize = 10
+
+[params]
+defaultRobotsMetaTag = "index, follow"
+description = ""
+keywords = []
+logo = "/images/logo.png"
+footerLogo = ""
+faviconPNG = "/images/favicon-32x32.png"
+playButtonText = "Jogar Agora"
+referralBaseUrl = "https://27d75jeosf.top/RC2TZM"
+activeGoogleFonts = [ "Inter:wght@400;600;700", "Poppins:wght@700",]
+demoIframeCode = ""
+
+[build]
+writeStats = true
+
+[params.organization]
+name = ""
+
+[params.contact]
+address_text = "C. José María Mateu 70, La Coruña, 08511"
+address_url = "https://www.google.com/maps/search/?api=1&query=C.+Jos%C3%A9+Mar%C3%ADa+Mateu+70%2C+La+Coru%C3%B1a%2C+08511"
+phone_display = "+34927 228 019"
+phone_link = "tel:+34927228019"
+email = "info@spin-mama-casino.com.es"
+_locale = "es_ES"
+
+[params.contactForm]
+action = ""
+netlify = false
+
+[params.uiText]
+footerCopyright = "© {year} {siteTitle}. Todos os direitos reservados."
+footerDisclaimerTitleRG = "JUEGO RESPONSABLE"
+footerDisclaimerResponsible = "apoya un enfoque responsable con respecto a los juegos de azar y colabora estrechamente con socios que comparten este principio fundamental. Los juegos de azar en línea deben proporcionar alegría y entretenimiento, no causar miedo o ansiedad en relación con pérdidas financieras. Si te sientes sobrecargado al jugar en nuestra plataforma, haz una pausa para recuperar el control y la claridad."
+footerDisclaimerTitleAff = "JUGAR CON RESPONSABILIDAD"
+footerDisclaimerAffiliate = "es un sitio independiente, no afiliado a los recursos que recomendamos. Antes de visitar un casino o hacer una apuesta, asegúrate de cumplir con todos los requisitos legales y de edad. Nuestro objetivo es proporcionar información y entretenimiento con énfasis en la educación. Al seguir los enlaces, ten en cuenta que estás saliendo de nuestro sitio."
+menuHome = "Inicio"
+menuAbout = "Sobre Nosotros"
+menuCasino = "Dónde Jugar"
+menuDemo = "Demo"
+menuApp = "App"
+menuContacts = "Contactos"
+menuCookiePolicy = "Política de Cookies"
+menuPrivacyPolicy = "Política de Privacidad"
+menuResponsibleGambling = "Juego Responsable"
+menuTermsConditions = "Términos y Condiciones"
+playButtonText = "Jugar"
+contactPageTitle = "Contacto"
+contactInfoTitle = "Información de contacto"
+contactFormTitle = "Enviar un mensaje"
+contactLabelAddress = "Dirección"
+contactLabelPhone = "Teléfono"
+contactLabelEmail = "Correo electrónico"
+contactLabelHours = "Horario de atención"
+contactFormLabelName = "Tu nombre"
+contactFormLabelPhone = "Número de teléfono"
+contactFormLabelEmail = "Correo electrónico"
+contactFormLabelMessage = "Mensaje"
+contactFormButtonSubmit = "Enviar mensaje"
+contactFormRequiredNotice = "Campos obligatorios"
+listReadMore = "Leer más →"
+paginationPrevious = "« Anterior"
+paginationNext = "Siguiente »"
+paginationAriaPrevious = "Página anterior"
+paginationAriaNext = "Página siguiente"
+paginationAriaGoToPage = "Ir a la página {pageNumber}"
+tocTitle = "Índice"
+breadcrumbHome = "Inicio"
+contactFormPlaceholderName = "Nombre Apellido"
+contactFormPlaceholderPhone = "Número de teléfono"
+contactFormPlaceholderEmail = "your.email@example.com"
+contactFormPlaceholderMessage = "Escribe tu mensaje aquí..."
+notFoundTitle = "404 No encontrado"
+notFoundHeading = "¡Ups! Página no encontrada."
+notFoundText = "La página que estás buscando no existe."
+faqTitle = "Preguntas Frecuentes"
+_language = "es"
+
+[build.buildStats]
+enable = true
+
+[build.cachebusters]
+enable = true
+sourceMaps = false

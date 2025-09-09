@@ -1,0 +1,81 @@
+{{- /* layouts/partials/contact/form.html */ -}}
+{{- /* Адаптируем под структуру cs_contact_form из contact.html нового шаблона */ -}}
+
+<div class="contact-form-wrapper"> {{/* Обертка, если нужна */}}
+  {{- /* Заголовок формы (опционально, может быть в single.html) */}}
+  {{- /* <h2 class="cs_fs_38 mb-0">{{ site.Params.uiText.contactFormTitle | default "Send Us a Message" }}</h2> */ -}}
+  {{- /* <div class="cs_height_40 cs_height_lg_30"></div> */ -}} {{/* Отступ после заголовка */}}
+
+  <form action="{{ site.Params.contactForm.action | default "#" }}" method="POST"
+        class="cs_contact_form row cs_gap_y_24" {{/* Классы из нового шаблона */}}
+        id="cs_form" {{/* ID из нового шаблона, если есть */}}
+        {{- if site.Params.contactForm.netlify }} netlify {{- end }}>
+
+    {{/* Скрытое поле для Netlify Forms, если используется */}}
+    {{- if site.Params.contactForm.netlify -}}
+      <input type="hidden" name="form-name" value="contact">
+    {{- end -}}
+
+    {{/* Поле Имя */}}
+    <div class="col-sm-6">
+      <label for="form-name">{{ site.Params.uiText.contactFormLabelName | default "Full Name" }}*</label>
+      <input type="text" name="fullname" class="cs_form_field cs_radius_30" id="form-name" required
+             placeholder="{{ site.Params.uiText.contactFormPlaceholderName | default "Enter full name" }}">
+    </div>
+
+    {{/* Поле Email */}}
+    <div class="col-sm-6">
+      <label for="form-email">{{ site.Params.uiText.contactFormLabelEmail | default "Email" }}*</label>
+      <input type="email" name="email" class="cs_form_field cs_radius_30" id="form-email" required
+             placeholder="{{ site.Params.uiText.contactFormPlaceholderEmail | default "Enter email address" }}">
+    </div>
+
+    {{/* Поле Название компании (если есть в новом шаблоне) */}}
+    {{- /* Пример, если бы было поле Company Name */}}
+    {{- if or site.Params.uiText.contactFormLabelCompany site.Params.uiText.contactFormPlaceholderCompany }}
+    <div class="col-sm-6">
+      <label for="form-company">{{ site.Params.uiText.contactFormLabelCompany | default "Company Name" }}*</label>
+      <input type="text" name="companyname" class="cs_form_field cs_radius_30" id="form-company" required
+             placeholder="{{ site.Params.uiText.contactFormPlaceholderCompany | default "Enter company name" }}">
+    </div>
+    {{- end -}}
+
+    {{/* Поле Телефон */}}
+    {{- if or site.Params.uiText.contactFormLabelPhone site.Params.uiText.contactFormPlaceholderPhone }}
+    <div class="col-sm-12"> {{/* Если нет Company Name, можно сделать col-sm-12 */}}
+      <label for="form-phone">{{ site.Params.uiText.contactFormLabelPhone | default "Mobile" }}</label> {{/* Убираем * если не обязательно */}}
+      <input type="tel" name="phone" class="cs_form_field cs_radius_30" id="form-phone"
+             placeholder="{{ site.Params.uiText.contactFormPlaceholderPhone | default "Enter phone number" }}">
+    </div>
+     {{- end -}}
+
+    {{/* Поле Сообщение */}}
+    <div class="col-sm-12">
+      <label for="form-message">{{ site.Params.uiText.contactFormLabelMessage | default "Write Query Details" }}*</label>
+      <textarea name="message" rows="7" id="form-message" class="cs_form_field cs_radius_30" required
+                placeholder="{{ site.Params.uiText.contactFormPlaceholderMessage | default "Enter your message" }}"></textarea>
+    </div>
+
+    {{/* Honeypot - защита от спама */}}
+    <div class="honeypot" aria-hidden="true" style="position: absolute; left: -5000px;">
+      <label for="bot-field">Don't fill this out if you're human:</label>
+      <input type="text" id="bot-field" name="bot-field" tabindex="-1">
+    </div>
+
+    {{/* Кнопка отправки */}}
+    <div class="col-sm-12">
+      <button type="submit" aria-label="Send message button"
+              class="cs_btn cs_style_1 cs_accent_bg cs_purple_hover cs_fs_16 cs_semibold cs_white_color cs_radius_30 wow fadeInUp"> {{/* Классы кнопки из нового шаблона */}}
+        <span>{{ site.Params.uiText.contactFormButtonSubmit | default "Send Message" }}</span>
+      </button>
+      {{/* Элемент для вывода результата отправки (если используется JS нового шаблона) */}}
+      <div id="cs_result" class="cs_result"></div>
+    </div>
+
+    {{/* Уведомление об обязательных полях (если нужно) */}}
+    {{- with site.Params.uiText.contactFormRequiredNotice -}}
+      <p class="required-notice col-12 text-end" style="margin-top: 1rem; font-size: 0.8em; color: var(--theme-text-color-light);"><small>* {{ . }}</small></p> {{/* Добавлен текст из uiText */}}
+    {{- end -}}
+
+  </form>
+</div>

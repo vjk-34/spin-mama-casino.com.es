@@ -1,0 +1,78 @@
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--theme-font-size-base);
+  line-height: var(--theme-line-height-base);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--theme-font-primary);
+  color: var(--theme-text-color);
+  background-color: var(--theme-bg-color);
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--theme-font-secondary);
+  font-weight: var(--theme-font-weight-headings);
+  line-height: var(--theme-line-height-headings);
+  margin-top: var(--theme-spacing-xl);
+  margin-bottom: var(--theme-spacing-lg);
+  color: var(--theme-text-color-headings);
+  letter-spacing: -0.01em;
+}
+h1 { font-size: var(--theme-font-size-h1); }
+h2 { font-size: var(--theme-font-size-h2); }
+h3 { font-size: var(--theme-font-size-h3); }
+h4 { font-size: var(--theme-font-size-h4); }
+p {
+  margin-top: 0;
+  margin-bottom: var(--theme-spacing-lg);
+  color: var(--theme-text-color);
+}
+a {
+  color: var(--theme-text-color-link);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  &:hover, &:focus {
+    color: var(--theme-text-color-link-hover);
+    outline: none;
+  }
+  &:focus-visible {
+      outline: 2px solid var(--theme-text-color-link);
+      outline-offset: 2px;
+      border-radius: var(--theme-border-radius);
+  }
+}
+img, svg, video { max-width: 100%; height: auto; display: block; vertical-align: middle; }
+hr {
+  border: 0; height: var(--theme-border-width);
+  background-color: var(--theme-border-color);
+  opacity: 0.5;
+  margin: var(--theme-spacing-xxl) 0;
+}
+.visually-hidden {
+  position: absolute !important; width: 1px !important; height: 1px !important;
+  padding: 0 !important; margin: -1px !important; overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important;
+}
+@media (max-width: #{$breakpoint-md}) {
+  html {
+    font-size: 93.75%;
+  }
+  h1 { font-size: 2.1rem; }
+  h2 { font-size: 1.8rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+}

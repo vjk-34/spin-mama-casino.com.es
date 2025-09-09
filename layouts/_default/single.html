@@ -1,0 +1,33 @@
+{{- define "main" -}}
+  {{/* Используем классы и структуру, подходящие для простых страниц */}}
+  {{/* Можно добавить класс на основе секции, если нужно */}}
+  {{- $sectionClass := printf "section-%s" (.Section | urlize) -}}
+  <div class="main-content-wrapper page-{{ .File.UniqueID }} {{ $sectionClass }}">
+
+    {{/* --- Основной контент страницы --- */}}
+    <section class="main-content-section">
+      <div class="cs_height_50 cs_height_lg_30"></div> {{/* Отступ сверху */}}
+      <div class="container">
+        {{/* Хлебные крошки перед контентом (если не в хедере страницы) */}}
+        {{ partial "breadcrumbs.html" . }}
+        <div class="cs_height_30 cs_height_lg_20"></div> {{/* Отступ после крошек */}}
+
+        <div class="content-area single-page-content"> {{/* Класс для стилизации */}}
+          {{/* Выводим заголовок, если он не был в секции хедера страницы */}}
+          <h1>{{ .Title }}</h1>
+          {{ .Content }}
+        </div>
+
+        {{/* Вывод FAQ, если он определен для этой страницы */}}
+        {{ partial "faq.html" . }}
+
+      </div>
+    </section>
+
+  </div>
+{{- end -}}
+
+{{- define "head" -}}
+  {{- partialCached "head.html" . .RelPermalink -}}
+  {{- /* Дополнительные meta или link теги для single страниц можно добавить здесь */ -}}
+{{- end -}}

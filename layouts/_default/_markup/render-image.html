@@ -1,0 +1,35 @@
+{{- $alt := .Text -}}
+{{- $title := .Title -}}
+{{- $src := .Destination -}}
+{{- $isUrl := strings.HasPrefix $src "http" -}}
+
+{{- $fallbackText := .Page.Title -}}
+
+{{- $keywords := .Page.Params.keywords | or site.Params.keywords -}}
+{{- with $keywords -}}
+  {{- if gt (len .) 0 -}}
+    {{- $fallbackText = index . 0 -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $finalAlt := $alt | default $fallbackText -}}
+
+{{- $finalTitle := $title | default $finalAlt -}}
+
+{{- $img := "" -}}
+{{- $imgPermalink := $src -}}
+{{- if not $isUrl -}}
+  {{- $localImg := .Page.Resources.GetMatch (printf "%s" $src) -}}
+  {{- if not $localImg -}}
+    {{- $localImg = resources.Get $src -}}
+  {{- end -}}
+  {{- if $localImg -}}
+    {{- $img = $localImg -}}
+    {{- $imgPermalink = $img.RelPermalink -}}
+  {{- else -}}
+    {{- $imgPermalink = $src | relURL -}}
+
+  {{- end -}}
+{{- end -}}
+
+<img src="{{ $imgPermalink | safeURL }}" alt="{{ $finalAlt | plainify | safeHTML }}" title="{{ $finalTitle | plainify | safeHTML }}" loading="lazy" {{- with $img -}} width="{{ .Width }}" height="{{ .Height }}" {{- end -}}>

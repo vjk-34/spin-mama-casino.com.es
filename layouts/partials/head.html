@@ -1,0 +1,130 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="x-ua-compatible" content="ie=edge"> {{/* Добавлено из нового шаблона для совместимости */}}
+
+{{- /* --- Генерация Title --- */}}
+{{- $pageTitle := .Title -}}
+{{- $siteTitle := .Site.Title -}}
+<title>{{ if ne .Title $siteTitle }}{{ .Title }}{{ else }}{{ $siteTitle }}{{ end }}</title>
+
+{{- /* --- Генерация Description --- */}}
+{{- $pageDescription := .Description | default (.Summary | plainify | truncate 160) -}}
+{{- $siteDescription := .Site.Params.description -}}
+<meta name="description" content="{{ $pageDescription | default $siteDescription | plainify }}">
+
+{{- /* --- Генерация Keywords --- */}}
+{{- $pageKeywords := .Params.keywords -}}
+{{- $siteKeywords := .Site.Params.keywords -}}
+{{- with $pageKeywords | default $siteKeywords -}}
+  {{- $keywordsString := delimit . ", " -}}
+  <meta name="keywords" content="{{ $keywordsString | plainify }}">
+{{- end -}}
+
+{{- /* --- Каноническая ссылка --- */}}
+{{- with .OutputFormats.Get "canonical" -}}
+  <link rel="canonical" href="{{ .Permalink }}">
+{{- else -}}
+  <link rel="canonical" href="{{ .Permalink }}">
+{{- end -}}
+
+{{- /* --- Favicons (Используем параметры из hugo.toml) --- */}}
+{{- $faviconPNG := site.Params.faviconPNG -}}
+{{- if $faviconPNG -}}
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ $faviconPNG | relURL }}">
+  {{- $favicon16 := replace $faviconPNG "32x32" "16x16" -}}
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ $favicon16 | relURL }}">
+{{- else -}}
+  {{- warnf "[head.html] site.Params.faviconPNG не найден в hugo.toml. Используются стандартные пути." -}}
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ "/images/favicon-32x32.png" | relURL }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ "/images/favicon-16x16.png" | relURL }}">
+{{- end -}}
+<link rel="apple-touch-icon" sizes="180x180" href="{{ "/apple-touch-icon.png" | relURL }}"> {{/* Предполагаем стандартный путь */}}
+<link rel="shortcut icon" href="{{ "/favicon.ico" | relURL }}"> {{/* Предполагаем стандартный путь */}}
+<link rel="manifest" href="{{ "/site.webmanifest" | relURL }}"> {{/* Предполагаем стандартный путь */}}
+<meta name="msapplication-TileColor" content="#da532c"> {{/* Можно вынести в hugo.toml при желании */}}
+<meta name="theme-color" content="#ffffff"> {{/* Можно вынести в hugo.toml при желании */}}
+
+{{- /* --- Open Graph Мета-теги --- */}}
+<meta property="og:title" content="{{ $pageTitle }}">
+<meta property="og:description" content="{{ $pageDescription | default $siteDescription | plainify }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+{{- /* Используем первую картинку со страницы или лого сайта из hugo.toml */}}
+{{- $ogImage := "" -}}
+{{- with .Params.images -}} {{- $ogImage = index . 0 -}} {{- end -}}
+{{- $ogImage = $ogImage | default site.Params.logo -}}
+{{- with $ogImage -}}
+  {{- $imageResource := "" -}}
+  {{- if fileExists (printf "assets/%s" .) -}}
+    {{- $imageResource = resources.Get . -}}
+  {{- else if fileExists (printf "static/%s" .) -}}
+    {{- /* Картинка в static, используем absURL */ -}}
+    <meta property="og:image" content="{{ . | absURL }}">
+  {{- else -}}
+     {{- warnf "[head.html] OG Image '%s' not found in assets or static." . -}}
+  {{- end -}}
+  {{- with $imageResource -}}
+    {{- $processedImage := .Fit "1200x630" -}}
+    <meta property="og:image" content="{{ $processedImage.Permalink }}">
+    <meta property="og:image:width" content="{{ $processedImage.Width }}">
+    <meta property="og:image:height" content="{{ $processedImage.Height }}">
+  {{- end -}}
+{{- end -}}
+
+{{- /* --- Twitter Card Мета-теги --- */}}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $pageTitle }}">
+<meta name="twitter:description" content="{{ $pageDescription | default $siteDescription | plainify }}">
+{{- /* Используем ту же логику для картинки, что и для OG */}}
+{{- with $ogImage -}}
+  {{- $imageResource := "" -}}
+  {{- if fileExists (printf "assets/%s" .) -}}
+    {{- $imageResource = resources.Get . -}}
+  {{- else if fileExists (printf "static/%s" .) -}}
+    <meta name="twitter:image" content="{{ . | absURL }}">
+  {{- end -}}
+  {{- with $imageResource -}}
+    {{- $processedImage := .Fit "1200x600" -}}
+    <meta name="twitter:image" content="{{ $processedImage.Permalink }}">
+  {{- else -}}
+     {{- if not (fileExists (printf "static/%s" $ogImage)) -}}
+        {{- /* Если не нашли ни в assets, ни в static, оставляем как есть (может быть внешняя ссылка) */}}
+        <meta name="twitter:image" content="{{ $ogImage | absURL }}">
+     {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* --- Google Fonts (Используем параметр из hugo.toml) --- */}}
+{{- $googleFontsList := site.Params.activeGoogleFonts | default slice -}}
+{{- if gt (len $googleFontsList) 0 -}}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  {{- $fontQuery := delimit $googleFontsList "&family=" -}}
+  {{- $googleFontsURL := printf "https://fonts.googleapis.com/css2?family=%s&display=swap" $fontQuery -}}
+  <link href="{{ $googleFontsURL }}" rel="stylesheet">
+{{- else -}}
+  {{- warnf "[head.html] Параметр site.Params.activeGoogleFonts пуст или не найден в hugo.toml. Шрифты Google Fonts не подключены." -}}
+{{- end -}}
+
+{{- /* --- Стили SCSS/CSS УБРАНЫ ОТСЮДА. Они подключаются в baseof.html --- */}}
+{{- /* $options := (dict "transpiler" "libsass" "outputStyle" "compressed") */ -}}
+{{- /* $styles := resources.Get "scss/main.scss" | toCSS $options | fingerprint */}}
+{{- /* with $styles */ -}}
+  {{- /* <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"> */ -}}
+{{- /* else */ -}}
+  {{- /* warnf "Не удалось скомпилировать SCSS. Проверьте assets/scss/main.scss" */ -}}
+{{- /* end */ -}}
+
+{{- /* --- Meta Robots --- */}}
+{{- $robotsContent := site.Params.defaultRobotsMetaTag | default "index, follow" -}}
+{{- with .Params.robots -}}{{- $robotsContent = . -}}{{- end -}}
+<meta name="robots" content="{{ $robotsContent }}">
+
+{{- /* --- Schema --- */}}
+{{- partial "schema.html" . -}}
+
+{{- /* --- Hugo Generator --- */}}
+{{- hugo.Generator -}}
+
+{{- /* --- Дополнительный блок для кастомных тегов в head --- */}}
+{{- block "head-extra" . -}}{{- end -}}

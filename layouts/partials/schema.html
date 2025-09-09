@@ -1,0 +1,142 @@
+{{- $currentPage := . -}}
+{{- $isArticle := eq .Section "blog" | or (eq .Section "posts") | or (eq .Type "article") -}}
+{{- $orgName := .Site.Params.organization.name | default .Site.Title -}}
+{{- $orgUrl := .Site.Params.organization.url | default .Site.BaseURL -}}
+{{- $orgLogo := .Site.Params.logo | absURL -}}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "{{ .Site.BaseURL }}#website",
+      "url": "{{ .Site.BaseURL }}",
+      "name": "{{ .Site.Title }}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ .Site.BaseURL }}search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+         "@id": "{{ $orgUrl }}#organization"
+      },
+      "inLanguage": "{{ .Site.LanguageCode | default "en" }}"
+    },
+    {
+      "@type": "Organization",
+      "@id": "{{ $orgUrl }}#organization",
+      "name": "{{ $orgName }}",
+      "url": "{{ $orgUrl }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ $orgLogo }}"
+
+      }
+      {{- with .Site.Params.organization.sameAs -}}
+      ,"sameAs": [{{- range $i, $v := . -}}"{{ . }}" {{- if ne (add $i 1) (len $.Site.Params.organization.sameAs) -}},{{- end -}}{{- end -}}]
+      {{- end -}}
+    },
+    {{- if and (not .IsHome) (ne .Kind "404") -}}
+    {
+      "@type": "BreadcrumbList",
+      "@id": "{{ .Permalink }}#breadcrumb",
+      "itemListElement": [
+        {{- $position := 1 -}}
+        {
+          "@type": "ListItem",
+          "position": {{ $position }},
+          "name": "{{ site.Params.uiText.breadcrumbHome | default (T "breadcrumbHome" | default "Home") }}",
+          "item": "{{ .Site.Home.Permalink }}"
+        } {{- range .Ancestors.Reverse -}}
+          {{- /* --- ИЗМЕНЕНИЕ: Добавлена проверка 'if .File' --- */ -}}
+          {{- if .File -}}
+            {{- /* Оригинальная проверка, чтобы исключить корневой раздел */ -}}
+            {{- if ne .File.Dir "" -}}
+              {{- $position = add $position 1 -}},
+              {
+                "@type": "ListItem",
+                "position": {{ $position }},
+                "name": "{{ .Title }}", {{- /* Используем .Title предка */}}
+                "item": "{{ .Permalink }}"
+              }
+            {{- end -}} {{- /* end if ne .File.Dir "" */ -}}
+          {{- end -}} {{- /* --- КОНЕЦ ИЗМЕНЕНИЯ --- */ -}}
+        {{- end -}} {{- /* end range .Ancestors */ -}}
+        {{- /* Текущая страница */ -}}
+        {{- $position = add $position 1 -}},
+        {
+          "@type": "ListItem",
+          "position": {{ $position }},
+          "name": "{{ .Title }}" {{- /* Используем .Title текущей страницы */}}
+        }
+      ]
+    },
+    {{- end -}}
+    {
+      {{- if $isArticle -}}
+      "@type": "Article",
+      "headline": "{{ .Title }}",
+      "author": {
+         "@type": "Person",
+         "name": "{{ .Params.author | default (.Site.Params.author | default $orgName )}}"
+      },
+      "publisher": {
+         "@id": "{{ $orgUrl }}#organization"
+      },
+       "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ .Permalink }}" }
+      {{- else -}}
+      "@type": "WebPage"
+      {{- end -}},
+      "@id": "{{ .Permalink }}",
+      "url": "{{ .Permalink }}",
+      "name": "{{ .Title }}",
+      "description": "{{ .Description | default (.Summary | plainify | truncate 160) }}",
+      "inLanguage": "{{ .Site.LanguageCode | default "en" }}",
+      {{- with .Params.hero_image | default .Params.image -}}
+        {{- $img_src := . -}}
+        {{- if reflect.IsMap . -}} {{- $img_src = .src -}} {{- end -}}
+        {{- with resources.Get $img_src -}}
+           {{- $img_proc := .Resize "1200x" -}}
+           ,"image": {
+              "@type": "ImageObject",
+              "url": "{{ $img_proc.Permalink }}",
+              "width": {{ $img_proc.Width }},
+              "height": {{ $img_proc.Height }}
+           }
+        {{- else -}}
+          ,"image": "{{ $img_src | absURL }}"
+        {{- end -}}
+      {{- end -}}
+      "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+      "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+      "isPartOf": {
+        "@id": "{{ .Site.BaseURL }}#website"
+      }
+      {{- if and (not .IsHome) (ne .Kind "404") -}}
+      ,"breadcrumb": {
+         "@id": "{{ .Permalink }}#breadcrumb"
+       }
+      {{- end -}}
+    }
+    {{- with .Params.faq -}},
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {{- range $i, $item := . -}}
+        {
+          "@type": "Question",
+          "name": "{{ $item.question | $.Page.RenderString (dict "display" "inline") | plainify }}",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "{{ $item.answer | $.Page.RenderString (dict "display" "block") | plainify }}"
+          }
+        } {{- if ne (add $i 1) (len $.Params.faq) -}},{{- end -}}
+        {{- end -}}
+      ]
+    }
+    {{- end -}}
+
+  ]
+}
+</script>

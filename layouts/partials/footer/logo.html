@@ -1,0 +1,12 @@
+{{- $footerLogo := site.Params.footerLogo -}}
+{{- $mainLogo := site.Params.logo | default "/images/logo.png" -}}
+{{- $logoToUse := $footerLogo | default $mainLogo -}}
+{{- $logoAlt := site.Title -}}
+
+{{- if $logoToUse -}}
+<a href="{{ site.Home.RelPermalink }}" title="{{ $logoAlt }}" class="footer-logo-link">
+  <img src="{{ $logoToUse | relURL }}" title="{{ $logoAlt }}" alt="{{ $logoAlt }}" width="150" height="50"
+    loading="lazy">
+</a>
+{{- else -}}
+{{- end -}}

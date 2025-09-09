@@ -1,0 +1,9 @@
+{{- define "main" -}}
+  <div class="container single-page">
+    {{- partial "breadcrumbs.html" . -}}
+    <div class="content-area">
+      {{- .Content -}}
+    </div>
+    {{- partial "faq.html" . -}}
+  </div>
+{{- end -}}

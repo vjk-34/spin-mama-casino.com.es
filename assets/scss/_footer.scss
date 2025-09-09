@@ -1,0 +1,214 @@
+.site-footer {
+  background-color: var(--theme-footer-bg);
+  color: var(--theme-footer-text);
+  border-top: 4px solid var(--theme-footer-border-color);
+  padding: calc(var(--theme-spacing-unit) * 2.5) 0 var(--theme-spacing-unit) 0;
+  font-size: 0.9em;
+
+  .container {
+    max-width: var(--theme-container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--theme-container-padding-x);
+    padding-right: var(--theme-container-padding-x);
+    width: 100%;
+  }
+
+  a {
+    color: var(--theme-footer-link-color);
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+    &:hover, &:focus {
+      color: var(--theme-footer-link-hover-color);
+      opacity: 0.85;
+      outline: none;
+    }
+    &:focus-visible {
+        outline: 2px solid var(--theme-footer-link-hover-color);
+        outline-offset: 2px;
+        border-radius: var(--theme-border-radius);
+    }
+  }
+
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--theme-spacing-xl);
+    padding-bottom: var(--theme-spacing-xl);
+    border-bottom: var(--theme-border-width) var(--theme-border-style) rgba(var(--theme-text-color-inverted-rgb, 255, 255, 255), 0.1);
+
+    .footer-logo {
+      flex-shrink: 0;
+      order: 1;
+      img { max-height: 45px; opacity: 0.9; width: auto; display: block;}
+    }
+    .footer-navigation {
+      margin-left: var(--theme-spacing-lg);
+      order: 2;
+      flex-shrink: 0;
+      .footer-menu {
+        list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap;
+        gap: var(--theme-spacing-md) var(--theme-spacing-lg);
+        li { margin: 0; }
+        a { color: #D1D5DB; font-weight: var(--theme-font-weight-medium); }
+      }
+    }
+  }
+
+  &.footer-top--menu-left .footer-top {
+    .footer-logo {
+      order: 2;
+      // margin-left: auto;
+      margin-right: 0;
+    }
+    .footer-navigation {
+      order: 1;
+      margin-left: 0;
+      margin-right: var(--theme-spacing-lg);
+    }
+  }
+
+  .footer-content-area {
+    margin-bottom: var(--theme-spacing-xl);
+    padding-bottom: var(--theme-spacing-xl);
+    border-bottom: var(--theme-border-width) var(--theme-border-style) rgba(var(--theme-text-color-inverted-rgb, 255, 255, 255), 0.1);
+
+    .responsible-gaming-info {
+      text-align: left;
+      h3 {
+        font-size: 1.1em;
+        font-weight: var(--theme-font-weight-bold);
+        color: var(--theme-footer-heading-color);
+        margin: var(--theme-spacing-lg) 0 var(--theme-spacing-md);
+        &:first-of-type { margin-top: 0; }
+      }
+      p {
+        margin-bottom: var(--theme-spacing-md);
+        line-height: 1.6;
+        color: var(--theme-footer-text);
+        &:last-child { margin-bottom: 0; }
+        strong {
+          color: var(--theme-footer-heading-color);
+          font-weight: var(--theme-font-weight-semibold);
+        }
+      }
+    }
+  }
+
+  &.footer-content--right .footer-content-area {
+    .responsible-gaming-info {
+       text-align: right;
+       margin-left: auto;
+       margin-right: 0;
+    }
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--theme-spacing-lg);
+    margin-top: var(--theme-spacing-xl);
+    font-size: 0.85em;
+
+    .footer-copyright {
+      order: 1;
+      margin: 0;
+      line-height: 1.5;
+      color: var(--theme-footer-heading-color);
+      text-align: left;
+    }
+    .footer-casino-logos {
+      order: 2;
+      margin-left: auto;
+      .logo-items {
+        display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center;
+        gap: var(--theme-spacing-md);
+      }
+      .casino-logo-item img {
+        display: block; max-height: 35px; width: auto; max-width: 100px;
+        opacity: 0.6;
+        filter: grayscale(80%) contrast(120%) brightness(150%);
+        transition: opacity 0.2s ease, filter 0.2s ease;
+        &:hover { opacity: 1; filter: none; }
+      }
+    }
+  }
+
+  &.footer-bottom--icons-left .footer-bottom {
+    .footer-copyright {
+      order: 2;
+      margin-left: auto;
+      text-align: right;
+    }
+    .footer-casino-logos {
+      order: 1;
+      margin-left: 0;
+      margin-right: auto;
+      .logo-items { justify-content: flex-start; }
+    }
+  }
+
+  @media (max-width: #{$breakpoint-md}) {
+    padding-top: var(--theme-spacing-xl);
+    padding-bottom: var(--theme-spacing-lg);
+
+    .footer-top, .footer-bottom {
+       flex-direction: column;
+       align-items: flex-start;
+       justify-content: flex-start;
+       gap: var(--theme-spacing-md);
+    }
+    .footer-top {
+        margin-bottom: var(--theme-spacing-lg);
+        padding-bottom: var(--theme-spacing-lg);
+        .footer-logo, .footer-navigation { order: initial !important; margin: 0 0 var(--theme-spacing-md) 0; width: 100%;}
+        .footer-navigation .footer-menu { justify-content: flex-start; }
+    }
+
+    .footer-content-area {
+        margin-bottom: var(--theme-spacing-lg);
+        padding-bottom: var(--theme-spacing-lg);
+        .responsible-gaming-info {
+            max-width: 100%;
+            margin-left: 0; margin-right: 0;
+            text-align: left !important;
+        }
+    }
+
+    .footer-bottom {
+        margin-top: var(--theme-spacing-lg);
+        .footer-copyright, .footer-casino-logos {
+            order: initial !important;
+            margin: 0;
+            width: 100%;
+            text-align: center;
+        }
+        .footer-copyright { margin-top: var(--theme-spacing-md); order: 2 !important; }
+        .footer-casino-logos { .logo-items { justify-content: center; } order: 1 !important; }
+    }
+  }
+}
+
+.footer-copyright {
+  order: 1;
+  margin: 0;
+  line-height: 1.5;
+  color: var(--theme-footer-heading-color);
+  text-align: left;
+}
+.footer-casino-logos {
+  order: 2;
+  margin-left: auto;
+  .logo-items {
+    display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center;
+    gap: var(--theme-spacing-md);
+  }
+  .casino-logo-item img {
+    display: block; max-height: 35px; width: auto; max-width: 100px;
+    transition: opacity 0.2s ease, filter 0.2s ease;
+  }
+}

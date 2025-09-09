@@ -1,0 +1,28 @@
+{{- $paginator := .Paginator -}}
+{{- if gt $paginator.TotalPages 1 -}}
+<nav class="pagination" aria-label="Pagination">
+  <ul class="pagination-list">
+    {{- if $paginator.HasPrev -}}
+      <li><a href="{{ $paginator.Prev.URL }}" class="pagination-previous" aria-label="{{ site.Params.uiText.paginationAriaPrevious | default "Previous page" }}">{{ site.Params.uiText.paginationPrevious | default "<< Previous" }}</a></li>
+    {{- else -}}
+      <li><span class="pagination-previous is-disabled" aria-disabled="true">{{ site.Params.uiText.paginationPrevious | default "<< Previous" }}</span></li>
+    {{- end -}}
+
+    {{- range $paginator.Pagers -}}
+      {{- $ariaLabelTmpl := site.Params.uiText.paginationAriaGoToPage | default "Go to page {pageNumber}" -}}
+      {{- $ariaLabel := replace $ariaLabelTmpl "{pageNumber}" .PageNumber -}}
+      <li>
+        <a href="{{ .URL }}" class="pagination-link {{- if eq . $paginator -}} is-current {{- end -}}" aria-label="{{ $ariaLabel }}" {{- if eq . $paginator -}} aria-current="page" {{- end -}}>
+          {{ .PageNumber }}
+        </a>
+      </li>
+    {{- end -}}
+
+    {{- if $paginator.HasNext -}}
+      <li><a href="{{ $paginator.Next.URL }}" class="pagination-next" aria-label="{{ site.Params.uiText.paginationAriaNext | default "Next page" }}">{{ site.Params.uiText.paginationNext | default "Next >>" }}</a></li>
+    {{- else -}}
+      <li><span class="pagination-next is-disabled" aria-disabled="true">{{ site.Params.uiText.paginationNext | default "Next >>" }}</span></li>
+    {{- end -}}
+  </ul>
+</nav>
+{{- end -}}
