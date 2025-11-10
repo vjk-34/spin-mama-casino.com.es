@@ -140,7 +140,7 @@ electrónicos, con plazos que varían según el proveedor en **spin mama
 casino**. Antes de depositar, revisa límites mínimos y máximos, así como
 posibles comisiones de tu banco. El sitio muestra el estado de cada
 transacción y permite cancelar solicitudes de retiro mientras están en
-cola, algo útil en **spinmama**. Procura verificar la cuenta antes del
+cola, algo útil en [Spinmama](https://spinmamas.com "Spinmama"). Procura verificar la cuenta antes del
 primer retiro para que el proceso sea más rápido. En cuanto a divisas,
 trabaja de forma nativa con Euro (EUR), lo que simplifica la
 contabilización para residentes en España. Si resides fuera, revisa cómo
