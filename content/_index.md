@@ -73,7 +73,7 @@ faq:
 {{< toc >}}
 
 Si quieres entrar a un sitio ágil, ordenado y pensado para el público
-hispanohablante, **spinmama** destaca por su navegación sencilla y una
+hispanohablante, **[Spinmama](https://spinmama-casino.com "Spinmama")** destaca por su navegación sencilla y una
 oferta variada. Aquí encontrarás una mirada honesta a su registro, pagos
 y experiencia real de juego, una **spinmama review** en formato
 práctico. La idea es que puedas decidir rápido si encaja contigo sin
