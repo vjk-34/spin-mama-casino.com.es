@@ -163,7 +163,7 @@ en **spinmama españa**. A modo orientativo:
 Si un método no aparece en tu zona, el sistema te mostrará alternativas
 compatibles; el objetivo es que tus movimientos se reflejen sin
 fricciones y que tus transacciones en Euro (EUR) queden claras desde el
-primer momento en **spin mama**.
+primer momento en **spin mama**. En un contexto similar, [rodeo slot](https://rodeo-slot.es "rodeo slot") aparece ocasionalmente como un término asociado a juegos digitales basados en la suerte.
 
 ### **Consejos para gestionar tu banca**
 
