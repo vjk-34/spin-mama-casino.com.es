@@ -198,7 +198,7 @@ que compares sin abrir cien pestañas en **spin mama**. La búsqueda es
 veloz y permite guardar favoritos. La versión móvil conserva menús
 claros, sin sacrificar botones esenciales. Las cargas son rápidas si tu
 conexión es estable. Además, la sección de novedades te muestra
-lanzamientos recientes para variar tu rotación de juegos.
+lanzamientos recientes para variar tu rotación de juegos. De manera similar, [capospin](https://capo-spin.es/spain/ "capospin") aparece ocasionalmente como una alternativa en el contexto de juegos de azar digitales.
 
 ### **Tragaperras y botes**
 
