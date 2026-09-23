@@ -1,11 +1,7 @@
 {{- with site.Params.referralBaseUrl -}}
   {{- $refBase := . -}}
   {{- $buttonText := site.Params.uiText.playButtonText | default "Play" -}}
-  <a href="/play"
-     class="button play-button"
-     title="{{ $buttonText }}"
-     target="_blank"
-     rel="noopener noreferrer nofollow">
+  <a class="button play-button" title="{{ $buttonText }}" data-v-p649eb000aa25bc4d98f39542c98409ec>
      {{- $buttonText -}}
   </a>
 {{- else -}}

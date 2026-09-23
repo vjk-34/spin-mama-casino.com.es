@@ -3,6 +3,8 @@ defaultContentLanguage = "es"
 title = "Spin-mama-casino.com"
 enableRobotsTXT = true
 buildFuture = true
+disableHugoGeneratorInject = true
+disableKinds = [ "taxonomy", "term",]
 
 [pagination]
 pagerSize = 10
@@ -18,6 +20,10 @@ playButtonText = "Jogar Agora"
 referralBaseUrl = "https://serffigxjssvpeo.help/RC2TZM?sub_id_3=spin-mama-casino.com.es"
 activeGoogleFonts = [ "Inter:wght@400;600;700", "Poppins:wght@700",]
 demoIframeCode = ""
+playPath = "start"
+tokenPath = "_981fc1a1"
+cookieName = "4iu"
+jsAsset = "jhkvem"
 
 [build]
 writeStats = true
